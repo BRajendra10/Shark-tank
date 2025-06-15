@@ -37,20 +37,15 @@ let searchByButton = document.getElementById("search-by-button");
 
 //  Problem 1. List of pitches on page load [3}
 
-let local_json_data = null;
+let json_data = await get_data();
+get_pitch_data(json_data);
 
-(function () {
-  fetch("http://localhost:3000/pitches")
-    .then((res) => res.json())
-    .then((data) => {
-      get_pitch_data(data);
+async function get_data(){
+  const res = await fetch("http://localhost:3000/pitches")
+  const data = await res.json();
 
-      local_json_data = data;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-})();
+  return data;
+}
 
 // Note for both get_pitch_data and update _pitch
 // array are 0 index based
@@ -59,8 +54,8 @@ function get_pitch_data(data) {
   let cards = data.map((el, i) =>
     creat_card(el.image, el.title, el.founder, el.category, el.price, el.id)
   );
-  mainSection.innerHTML = cards.join("");
 
+  mainSection.innerHTML = cards.join("");
   // so here first eliment that has #edit id is o indexed
   document.querySelectorAll("#edit").forEach((el, i) => {
     el.addEventListener("click", () => {
@@ -90,12 +85,12 @@ function delete_pitch(id) {
 
 function edit_pitch(id) {
   // and here i get the data
-  // local_json_data is arra so it's 0 index based so don't have to change it
-  updatePitchTitleInput.value = local_json_data[id].title;
-  updatePitchImageInput.value = local_json_data[id].image;
-  updatePitchCategoryInput.value = local_json_data[id].category;
-  updatePitchfounderInput.value = local_json_data[id].founder;
-  updatePitchPriceInput.value = local_json_data[id].price;
+  // json_data is arra so it's 0 index based so don't have to change it
+  updatePitchTitleInput.value = json_data[id].title;
+  updatePitchImageInput.value = json_data[id].image;
+  updatePitchCategoryInput.value = json_data[id].category;
+  updatePitchfounderInput.value = json_data[id].founder;
+  updatePitchPriceInput.value = json_data[id].price;
   // but the id of eliment in json-server are not index based
   // so i have to use pree increament (el-in-array index=5 json-data index=6)
   updatePitchIdInput.value = ++id;
@@ -139,7 +134,7 @@ pitchCreateBtn.addEventListener("click", () => {
   })
     .then((res) => res.json())
     .then((data) => {
-      local_json_data = data;
+      json_data = data;
     })
     .catch((err) => console.log("Error", err));
 });
@@ -164,7 +159,7 @@ updatePitchBtn.addEventListener("click", () => {
   })
     .then((res) => res.json())
     .then((data) => {
-      local_json_data = data;
+      json_data = data;
     })
     .catch((err) => console.log("Error", err));
 });
@@ -183,38 +178,38 @@ updatePricePitchPriceButton.addEventListener("click", () => {
   })
     .then((res) => res.json())
     .then((data) => {
-      local_json_data = data;
+      json_data = data;
     })
     .catch((err) => console.log("Error", err));
 });
 
 sortAtoZBtn.addEventListener("click", () => {
-  local_json_data = local_json_data.sort((a, b) => a.price - b.price);
-  get_pitch_data(local_json_data);
+  json_data = json_data.sort((a, b) => a.price - b.price);
+  get_pitch_data(json_data);
 });
 
 sortZtoABtn.addEventListener("click", () => {
-  local_json_data = local_json_data.sort((a, b) => b.price - a.price);
-  get_pitch_data(local_json_data);
+  json_data = json_data.sort((a, b) => b.price - a.price);
+  get_pitch_data(json_data);
 });
 
 filterFood.addEventListener("click", () => {
-  local_json_data = local_json_data.filter((obj) => obj.category === "Food");
-  get_pitch_data(local_json_data);
+  json_data = json_data.filter((obj) => obj.category === "Food");
+  get_pitch_data(json_data);
 });
 
 filterPersonalCare.addEventListener("click", () => {
-  local_json_data = local_json_data.filter(
+  json_data = json_data.filter(
     (obj) => obj.category === "Personal Care"
   );
-  get_pitch_data(local_json_data);
+  get_pitch_data(json_data);
 });
 
 filterElectronics.addEventListener("click", () => {
-  local_json_data = local_json_data.filter(
+  json_data = json_data.filter(
     (obj) => obj.category === "Electronics"
   );
-  get_pitch_data(local_json_data);
+  get_pitch_data(json_data);
 });
 
 searchByButton.addEventListener("click", () => {
