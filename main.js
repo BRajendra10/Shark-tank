@@ -40,15 +40,12 @@ let searchByButton = document.getElementById("search-by-button");
 let json_data = await get_data();
 get_pitch_data(json_data);
 
-async function get_data(){
+async function get_data() {
   const res = await fetch("http://localhost:3000/pitches")
   const data = await res.json();
 
   return data;
 }
-
-// Note for both get_pitch_data and update _pitch
-// array are 0 index based
 
 function get_pitch_data(data) {
   let cards = data.map((el, i) =>
@@ -56,44 +53,6 @@ function get_pitch_data(data) {
   );
 
   mainSection.innerHTML = cards.join("");
-  // so here first eliment that has #edit id is o indexed
-  document.querySelectorAll("#edit").forEach((el, i) => {
-    el.addEventListener("click", () => {
-      let id = el.getAttribute("data-id");
-      edit_pitch(id); // and i am here pasing the 0 indexed as id
-    });
-  });
-
-  document.querySelectorAll("#btn").forEach((el, i) => {
-    el.addEventListener("click", () => {
-      let id = el.getAttribute("data-id");
-      delete_pitch(id);
-    });
-  });
-}
-
-function delete_pitch(id) {
-  alert(id);
-
-  fetch(`http://localhost:3000/pitches/${id}`, {
-    method: "DELETE",
-  })
-    .then((res) => res.json())
-    .then((data) => console.log("Deleted data", data))
-    .catch((err) => console.log(err));
-}
-
-function edit_pitch(id) {
-  // and here i get the data
-  // json_data is arra so it's 0 index based so don't have to change it
-  updatePitchTitleInput.value = json_data[id].title;
-  updatePitchImageInput.value = json_data[id].image;
-  updatePitchCategoryInput.value = json_data[id].category;
-  updatePitchfounderInput.value = json_data[id].founder;
-  updatePitchPriceInput.value = json_data[id].price;
-  // but the id of eliment in json-server are not index based
-  // so i have to use pree increament (el-in-array index=5 json-data index=6)
-  updatePitchIdInput.value = ++id;
 }
 
 function creat_card(img, title, founder, category, price, id) {
@@ -108,8 +67,8 @@ function creat_card(img, title, founder, category, price, id) {
             <p class="card-founder">Founder: ${founder}</p>
             <p class="card-category">${category}</p>
             <p class="card-price">$${price}</p>
-            <a href="#" class="card-link" data-id=${id} id="edit">Edit</a>
-            <button data-id=${id} class="card-button" id="btn">Delete</button>
+            <button class="card-button" data-id=${id} id="btn edit-btn">Edit</button>
+            <button class="card-button" data-id=${id} id="btn delete-btn">Delete</button>
         </div>
     </div>`;
 
@@ -220,3 +179,32 @@ searchByButton.addEventListener("click", () => {
     .then((data) => get_pitch_data(data))
     .catch((res) => console.log(res));
 });
+
+document.addEventListener("click", (el) => {
+  const id = el.target.getAttribute("data-id");
+
+  if (el.target.id.includes("edit-btn")) {
+    edit_pitch(id)
+  } else if (el.target.id.includes("delete-btn")) {
+    delete_pitch(id);
+  }
+})
+
+async function delete_pitch(id) {
+  const res = await fetch(`http://localhost:3000/pitches/${id}`, {
+    method: "DELETE",
+  })
+  const data = res.json();
+
+  console.log(data);
+}
+
+function edit_pitch(id) {
+  updatePitchTitleInput.value = json_data[id].title;
+  updatePitchImageInput.value = json_data[id].image;
+  updatePitchCategoryInput.value = json_data[id].category;
+  updatePitchfounderInput.value = json_data[id].founder;
+  updatePitchPriceInput.value = json_data[id].price;
+
+  updatePitchIdInput.value = id;
+}
