@@ -160,6 +160,14 @@
       "year": "05-04-2020",
       "title": "Wakao products",
       "id": 2
+    },
+    {
+      "title": "Hammer",
+      "image": "https://m.media-amazon.com/images/I/61RjUgGy04L._AC_UY327_FMwebp_QL65_.jpg",
+      "category": "Electronics",
+      "founder": "Rohit Nandwani",
+      "price": "52",
+      "id": 5
     }
   ]
 }
