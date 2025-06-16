@@ -60,7 +60,9 @@ function creat_card(img, title, founder, category, price, id) {
     <div class="card">
         <p>${id}</p>
         <div class="card-img">
-            <img src=${img} alt="pitch">
+            <a href="discription.html?id=${encodeURIComponent(id)}">
+              <img src=${img} alt="pitch" width="100%">
+            </a>
         </div>
         <div class="card-body">
             <h4 class="class-title">${title}</h4>
