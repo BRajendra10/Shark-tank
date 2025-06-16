@@ -13,8 +13,8 @@ async function get_data(id) {
   return data;
 }
 
-function creat_card(){
-    const card = `
+function creat_card() {
+  const card = `
     <div class="card">
         <div class="card-img">
             <img src=${data.image} alt="image">
@@ -31,15 +31,28 @@ function creat_card(){
       </div>
     `
 
-    return card;
+  return card;
 }
 
 document.addEventListener("click", (el) => {
   const id = el.target.getAttribute("data-id");
 
-  if (el.target.id.includes("edit-btn")) {
-    // edit_pitch(id)
-  } else if (el.target.id.includes("delete-btn")) {
-    // delete_pitch(id);
+  if (el.target.id.includes("add-to-cart")) {
+    add_to_cart(data);
+  } else if (el.target.id.includes("buy-now")) {
+    console.log(el.target);
   }
 })
+
+async function add_to_cart(cart_data) {
+  const res = await fetch("http://localhost:3000/cart", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(cart_data),
+  })
+  const data = await res.json();
+
+  console.log(data);
+}

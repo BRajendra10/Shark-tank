@@ -148,5 +148,18 @@
       "price": "12.9",
       "id": 16
     }
+  ],
+  "cart": [
+    {
+      "image": "https://m.media-amazon.com/images/I/81MJ4Eic6YL._AC_CR0%2C0%2C0%2C0_SX615_SY462_.jpg",
+      "price": "75",
+      "percentage": 21,
+      "description": "At Wakao, we are passionate about healthy, sustainable food. Our goal is to bring ethically sourced, sustainably grown food to our customer’s dinner table",
+      "founder": "Sairaj Dhond",
+      "category": "Food",
+      "year": "05-04-2020",
+      "title": "Wakao products",
+      "id": 2
+    }
   ]
 }
