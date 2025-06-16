@@ -33,3 +33,13 @@ function creat_card(){
 
     return card;
 }
+
+document.addEventListener("click", (el) => {
+  const id = el.target.getAttribute("data-id");
+
+  if (el.target.id.includes("edit-btn")) {
+    // edit_pitch(id)
+  } else if (el.target.id.includes("delete-btn")) {
+    // delete_pitch(id);
+  }
+})
